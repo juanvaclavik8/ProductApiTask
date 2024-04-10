@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProductApiTask.ServiceLayer;
 
 namespace ProductApiTask.Controllers
 {
@@ -6,21 +7,24 @@ namespace ProductApiTask.Controllers
     [Route("[controller]")]
     public class ProductController : ControllerBase
     {
-        public ProductController()
-        {
+        private readonly IService _service;
 
+        public ProductController(IService service)
+        {
+            _service = service;
         }
 
         [HttpGet(Name = "GetProduct")]
-        public ServiceResult GetProduct(int id)
+        public IServiceResult GetProduct(int id)
         {
-
-
-            return new ServiceResult { };
-
-
-
+            try
+            {
+                return _service.GetProduct(id);
             }
-
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
